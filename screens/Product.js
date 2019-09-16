@@ -9,7 +9,7 @@ class Product extends Component {
         this.state = {  }
     }
     render() { 
-        return ( <Card>
+        return ( <Card style={{elevation:3}}>
             <Text>{this.props.product.name}</Text>
         </Card> );
     }

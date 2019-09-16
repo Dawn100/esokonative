@@ -74,7 +74,10 @@ class ProductsList extends Component {
                 </Header>
         <Tabs renderTabBar={()=> <ScrollableTab  style={{backgroundColor:"#038C65"}} />}>
           <Tab activeTabStyle={{backgroundColor:"#038C65"}} tabStyle={{backgroundColor:"#038C65"}} heading="All Products">
+              <View style={{backgroundColor:"#eeeeee",flex:1}}>
+
           {this.state.products.map(product=><Product product={product} key={product.id}/>)}
+              </View>
           </Tab>
           <Tab activeTabStyle={{backgroundColor:"#038C65"}} tabStyle={{backgroundColor:"#038C65"}} heading="My Products">
           <MyProducts/>

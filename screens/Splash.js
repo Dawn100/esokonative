@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   },
   overlay: {
     flex: 1,
-    backgroundColor: "#2f2f2fd0",
+    backgroundColor: "#aaaaaad0",
     flexDirection: "column"
   }
 });
@@ -40,6 +40,9 @@ class Splash extends Component {
         source={require("../assets/images/img3.jpg")}
         style={{ flex: 1 }}
       >
+          <StatusBar
+                    hidden={true}
+                    />
         <View style={styles.overlay}>
           <Text style={styles.title}>Esoko</Text>
           <Button
@@ -72,8 +75,8 @@ class Splash extends Component {
     clearInterval(this.state.intervalId);
   }
   componentDidMount() {
-    // var id = setInterval(this.next, 100000);
-    // this.setState({ intervalId: id });
+    var id = setInterval(this.next, 1000);
+    this.setState({ intervalId: id });
   }
 }
 
