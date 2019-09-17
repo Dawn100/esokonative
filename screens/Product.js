@@ -17,7 +17,7 @@ class Product extends Component {
                 <Image source={{uri: this.props.product.photo}} style={{height: 150, width: 150, flex: 1}}/>
             </View>
             <View style={{flex:1,margin:1}}>
-                <Text style={{flex: 1, flexWrap: 'wrap',color:'#008080'}}>
+                <Text style={{flex: 1, flexWrap: 'wrap',color:'#118524'}}>
                     {category.name}
                 </Text>
                 <Text style={{flex: 1, flexWrap: 'wrap',fontWeight:'900',fontSize:18}}>
@@ -32,7 +32,7 @@ class Product extends Component {
                 {this.props.mine?
                 <View style={{flex:1,marginTop:3,flexDirection:'row',justifyContent:'space-evenly'}}>
                         <Icon name='md-trash' style={{color:'#ff0000'}}/>
-                        <Icon name='md-hammer' style={{color:'orange'}}/>
+                        <Icon name='md-hammer' style={{color:'#F27405'}}/>
                 </View>
                 :null}
             </View>

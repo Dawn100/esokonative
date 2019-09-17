@@ -8,8 +8,8 @@ import Login from "./screens/Login";
 
 
 const App = createStackNavigator({
-    Splash:{screen:Splash},
     List:{screen:ProductsList},
+    Splash:{screen:Splash},
     Login:{screen:Login},
     Detail:{screen:ProductDetail},
     Add:{screen:AddProduct}

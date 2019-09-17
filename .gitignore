@@ -9,3 +9,5 @@ npm-debug.*
 *.orig.*
 web-build/
 web-report/
+icon_names.txt
+colors.css
