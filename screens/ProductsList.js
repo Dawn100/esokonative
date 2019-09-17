@@ -82,12 +82,12 @@ class ProductsList extends Component {
                 <Tabs renderTabBar={()=> <ScrollableTab  style={{backgroundColor:"#038C65"}} />}>
                 <Tab activeTabStyle={{backgroundColor:"#038C65"}} tabStyle={{backgroundColor:"#038C65"}} heading="All Products">
                     <ScrollView style={{backgroundColor:"#eeeeee",flex:1}}>
-                            {this.state.products.map(product=><Product product={product} key={product.id}/>)}
+                            {this.state.products.map(product=><Product mine={false} product={product} key={product.id}/>)}
                     </ScrollView>
                 </Tab>
                 <Tab activeTabStyle={{backgroundColor:"#038C65"}} tabStyle={{backgroundColor:"#038C65"}} heading="My Products">
                 <ScrollView style={{backgroundColor:"#eeeeee",flex:1}}>
-                            {this.state.myproducts.map(product=><Product product={product} key={product.id}/>)}
+                            {this.state.myproducts.map(product=><Product product={product} mine={true} key={product.id}/>)}
                 </ScrollView>
                 </Tab>
                 </Tabs>
