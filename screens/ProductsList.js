@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StatusBar,View,Image } from "react-native";
+import { StatusBar,View,Image,ScrollView } from "react-native";
 import {
     Container,
     Header,
@@ -30,9 +30,11 @@ class ProductsList extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-            products:[]
+            products:[],
+            myproducts:[]
          }
          this.gotoNew = this.gotoNew.bind(this);
+         this.api_token=api_token="zDlrQ3x4QLVxrK0xUseqVhzMmJQ8iEzKikdUvd2WHYQ4LXSx14nQWXsde9O9"
     }
 
     gotoNew(){
@@ -40,8 +42,7 @@ class ProductsList extends Component {
         navigate('Add')
     }
     async componentWillMount(){
-        let api_token="zDlrQ3x4QLVxrK0xUseqVhzMmJQ8iEzKikdUvd2WHYQ4LXSx14nQWXsde9O9"
-       await fetch("http://192.168.43.118:8000/api/products/?api_token="+api_token,{
+       await fetch("http://192.168.43.118:8000/api/products/?api_token="+this.api_token,{
             method:'GET',
         }).then(response=>response.json()).then(response=>{
             this.setState({
@@ -53,7 +54,13 @@ class ProductsList extends Component {
         await Font.loadAsync({
           Roboto_medium: require("../assets/fonts/Roboto_medium.ttf")
         });
-    
+        await fetch("http://192.168.43.118:8000/api/user/products/?api_token="+this.api_token,{
+            method:'GET',
+        }).then(response=>response.json()).then(response=>{
+            this.setState({
+                myproducts:response
+            })
+        })
         this.setState({ fontLoaded: true });
       }
     render() {        
@@ -72,17 +79,18 @@ class ProductsList extends Component {
                     </Body>
                     <Right style={{ flex: 1 }} />
                 </Header>
-        <Tabs renderTabBar={()=> <ScrollableTab  style={{backgroundColor:"#038C65"}} />}>
-          <Tab activeTabStyle={{backgroundColor:"#038C65"}} tabStyle={{backgroundColor:"#038C65"}} heading="All Products">
-              <View style={{backgroundColor:"#eeeeee",flex:1}}>
-
-          {this.state.products.map(product=><Product product={product} key={product.id}/>)}
-              </View>
-          </Tab>
-          <Tab activeTabStyle={{backgroundColor:"#038C65"}} tabStyle={{backgroundColor:"#038C65"}} heading="My Products">
-          <MyProducts/>
-          </Tab>
-        </Tabs>
+                <Tabs renderTabBar={()=> <ScrollableTab  style={{backgroundColor:"#038C65"}} />}>
+                <Tab activeTabStyle={{backgroundColor:"#038C65"}} tabStyle={{backgroundColor:"#038C65"}} heading="All Products">
+                    <ScrollView style={{backgroundColor:"#eeeeee",flex:1}}>
+                            {this.state.products.map(product=><Product product={product} key={product.id}/>)}
+                    </ScrollView>
+                </Tab>
+                <Tab activeTabStyle={{backgroundColor:"#038C65"}} tabStyle={{backgroundColor:"#038C65"}} heading="My Products">
+                <ScrollView style={{backgroundColor:"#eeeeee",flex:1}}>
+                            {this.state.myproducts.map(product=><Product product={product} key={product.id}/>)}
+                </ScrollView>
+                </Tab>
+                </Tabs>
       </Container>
         ):null;
     }
