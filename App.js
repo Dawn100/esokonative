@@ -9,10 +9,10 @@ import Login from "./screens/Login";
 
 const App = createStackNavigator({
     List:{screen:ProductsList},
+    Add:{screen:AddProduct},
     Splash:{screen:Splash},
     Login:{screen:Login},
     Detail:{screen:ProductDetail},
-    Add:{screen:AddProduct}
   });
 
 

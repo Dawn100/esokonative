@@ -19,7 +19,6 @@ import {
     Tab, Tabs,ScrollableTab
   } from "native-base";
 import * as Font from 'expo-font';
-import MyProducts from './MyProducts';
 import Constants from 'expo-constants';
 import Product from './Product';
 
@@ -33,11 +32,24 @@ class ProductsList extends Component {
             products:[],
             myproducts:[]
          }
-         this.gotoNew = this.gotoNew.bind(this);
+         this.add = this.add.bind(this);
+         this.delete = this.delete.bind(this);
+         this.edit = this.edit.bind(this);
+         this.details = this.edit.bind(this);
+
+
          this.api_token=api_token="zDlrQ3x4QLVxrK0xUseqVhzMmJQ8iEzKikdUvd2WHYQ4LXSx14nQWXsde9O9"
     }
 
-    gotoNew(){
+    delete(id){
+        alert('delete'+id)
+    }
+    edit(id){
+        const { navigate } = this.props.navigation;
+        navigate('Add',{id:id})
+    }
+
+    add(){
         const { navigate } = this.props.navigation;
         navigate('Add')
     }
@@ -82,13 +94,16 @@ class ProductsList extends Component {
                 <Tabs renderTabBar={()=> <ScrollableTab  style={{backgroundColor:"#038C65"}} />}>
                 <Tab activeTabStyle={{backgroundColor:"#038C65"}} tabStyle={{backgroundColor:"#038C65"}} heading="All Products">
                     <ScrollView style={{backgroundColor:"#eeeeee",flex:1}}>
-                            {this.state.products.map(product=><Product mine={false} product={product} key={product.id}/>)}
+                            {this.state.products.map(product=><Product details={this.details} mine={false} product={product} key={product.id}/>)}
                     </ScrollView>
                 </Tab>
                 <Tab activeTabStyle={{backgroundColor:"#038C65"}} tabStyle={{backgroundColor:"#038C65"}} heading="My Products">
                 <ScrollView style={{backgroundColor:"#eeeeee",flex:1}}>
-                            {this.state.myproducts.map(product=><Product product={product} mine={true} key={product.id}/>)}
+                            {this.state.myproducts.map(product=><Product details={this.details} delete={this.delete} edit={this.edit} product={product} mine={true} key={product.id}/>)}
                 </ScrollView>
+                <Fab position='bottomRight' style={{backgroundColor:'#038C65'}} onPress={this.add} >
+                    <Icon name='md-add'/>
+                </Fab>
                 </Tab>
                 </Tabs>
       </Container>
