@@ -8,7 +8,7 @@ import Signup from "./screens/Signup";
 import EditProduct from "./screens/EditProduct";
 import config from "./config";
 
-console.log(config)
+//console.log(config)
 
 const App = createStackNavigator({
     Splash:{screen:Splash},

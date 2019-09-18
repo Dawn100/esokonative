@@ -25,7 +25,7 @@ class Login extends Component {
   }
 
   signin() {
-    fetch(config.server + '/login/', {
+    fetch(config.server + '/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -35,11 +35,13 @@ class Login extends Component {
         password: this.state.password
       })
     }).then(response => {
+      console.log(response)
       if (response.ok) {
         return response.json()
       }
     })
       .then(async response => {
+        console.log(response)
         if (response.login_status === 1) {
           await AsyncStorage.setItem('API_TOKEN', response.api_token)
           this.props.navigation.navigate('List')

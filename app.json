@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "esokonative",
-    "slug": "esokonative",
+    "name": "esoko",
+    "slug": "esoko",
+    "description":"A simple products catalog",
     "privacy": "public",
     "sdkVersion": "34.0.0",
     "platforms": [
@@ -13,13 +14,13 @@
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/images/img1.jpg",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "primaryColor":"#009688",
+    "primaryColor":"#038C65",
     "androidStatusBar": {
-      "backgroundColor": "#008080",
+      "backgroundColor": "#038C65",
       "barStyle":"dark-content"
     },
     "updates": {
