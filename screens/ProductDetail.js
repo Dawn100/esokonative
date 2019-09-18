@@ -44,8 +44,8 @@ const styles = StyleSheet.create({
     },
     navContainer: {
       height: HEADER_HEIGHT,
-      marginHorizontal: 10,
-      elevation:5
+      marginHorizontal: 15,
+      
     },
     statusBar: {
       height: STATUS_BAR_HEIGHT,
@@ -57,7 +57,6 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       flexDirection: 'row',
       backgroundColor: 'transparent',
-      elevation:5
     },
     titleStyle: {
       color: 'white',

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StatusBar,View,Image,ScrollView } from "react-native";
+import { StatusBar,View,Image,ScrollView,ToastAndroid } from "react-native";
 import {
     Container,
     Header,
@@ -16,7 +16,7 @@ import {
     Fab,
     List,
     ListItem,
-    Tab, Tabs,ScrollableTab
+    Tab, Tabs,ScrollableTab,Root,Toast
   } from "native-base";
 import * as Font from 'expo-font';
 import Constants from 'expo-constants';
@@ -36,13 +36,39 @@ class ProductsList extends Component {
          this.delete = this.delete.bind(this);
          this.edit = this.edit.bind(this);
          this.details = this.details.bind(this);
+         this.remove=this.remove.bind(this);
 
 
          this.api_token=api_token="zDlrQ3x4QLVxrK0xUseqVhzMmJQ8iEzKikdUvd2WHYQ4LXSx14nQWXsde9O9"
     }
 
-    delete(id){
-        alert('delete'+id)
+    async remove(id){
+        await fetch("http://192.168.43.118:8000/api/products/"+id+"?api_token="+this.api_token,
+        {
+            method:'DELETE'
+        }).then(response=>{
+            if(response.ok){
+                return response.json()
+            }
+        }).then(response=>{
+            if (response && response.message==="deleted") {
+                this.fetchProducts();       
+            }
+        })
+    }
+
+    async delete(id){
+    
+        Toast.show({
+            text: 'Are you sure!!',
+            type:'danger',
+            buttonText: 'Okay',
+            duration:5000,
+            onClose:()=>{
+                this.remove(id);
+            }
+          }) 
+        
     }
     edit(id){
         const { navigate } = this.props.navigation;
@@ -94,7 +120,7 @@ class ProductsList extends Component {
 
     
     render() {        
-        return this.state.fontLoaded ? (
+        return this.state.fontLoaded ? (<Root>
             <Container>
                 <Header style={{backgroundColor:"#038C65"}} hasTabs>
                     <StatusBar
@@ -125,7 +151,7 @@ class ProductsList extends Component {
                 </Fab>
                 </Tab>
                 </Tabs>
-      </Container>
+      </Container></Root>
         ):null;
     }
 }
