@@ -78,9 +78,9 @@ class AddProduct extends Component {
             } 
         }).then(response=>{
                 
-                alert("Product added successfully")
-                const { navigate } = this.props.navigation;
-                navigate('List')
+          alert("Product updated successfully")
+          const { navigate } = this.props.navigation;
+          navigate('Detail',{id:response.product.id})
         })
     }
 
@@ -140,7 +140,6 @@ class AddProduct extends Component {
               <Form style={{margin:20}}>
                   <Item>
                     <Picker
-                        placeholder="Choose category"
                         selectedValue={this.state.category_id}
                         style={{ height: 50, width: 100 }}
                         onValueChange={(itemValue, itemIndex) => this.setState({category_id:itemIndex===0?0:itemValue})}>

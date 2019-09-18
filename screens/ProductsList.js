@@ -35,7 +35,7 @@ class ProductsList extends Component {
          this.add = this.add.bind(this);
          this.delete = this.delete.bind(this);
          this.edit = this.edit.bind(this);
-         this.details = this.edit.bind(this);
+         this.details = this.details.bind(this);
 
 
          this.api_token=api_token="zDlrQ3x4QLVxrK0xUseqVhzMmJQ8iEzKikdUvd2WHYQ4LXSx14nQWXsde9O9"
@@ -46,7 +46,10 @@ class ProductsList extends Component {
     }
     edit(id){
         const { navigate } = this.props.navigation;
-        navigate('Add',{id:id})
+        navigate('Edit',{id:id})
+    }
+    details(){
+
     }
 
     add(){
