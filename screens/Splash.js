@@ -41,7 +41,7 @@ class Splash extends Component {
         style={{ flex: 1 }}
       >
           <StatusBar
-                    hidden={true}
+                    hidden={false}
                     />
         <View style={styles.overlay}>
           <Text style={styles.title}>Esoko</Text>
@@ -75,8 +75,8 @@ class Splash extends Component {
     clearInterval(this.state.intervalId);
   }
   componentDidMount() {
-    var id = setInterval(this.next, 1000);
-    this.setState({ intervalId: id });
+    // var id = setInterval(this.next, 5000);
+    // this.setState({ intervalId: id });
   }
 }
 

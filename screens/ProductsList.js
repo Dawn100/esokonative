@@ -24,7 +24,7 @@ import Product from './Product';
 
 class ProductsList extends Component {
     static navigationOptions = () => ({
-        header: null
+        header: null,
       });
     constructor(props) {
         super(props);
@@ -48,36 +48,51 @@ class ProductsList extends Component {
         const { navigate } = this.props.navigation;
         navigate('Edit',{id:id})
     }
-    details(){
-
+    details(id){
+        const { navigate } = this.props.navigation;
+        navigate('Detail',{id:id})
     }
 
     add(){
         const { navigate } = this.props.navigation;
         navigate('Add')
     }
-    async componentWillMount(){
-       await fetch("http://192.168.43.118:8000/api/products/?api_token="+this.api_token,{
+
+    async fetchProducts(){
+
+        //Fetch all products
+        await fetch("http://192.168.43.118:8000/api/products/?api_token="+this.api_token,{
             method:'GET',
         }).then(response=>response.json()).then(response=>{
             this.setState({
                 products:response
             })
         })
-    }
-    async componentDidMount() {
-        await Font.loadAsync({
-          Roboto_medium: require("../assets/fonts/Roboto_medium.ttf")
-        });
+
+        //Fetch only my products
         await fetch("http://192.168.43.118:8000/api/user/products/?api_token="+this.api_token,{
-            method:'GET',
-        }).then(response=>response.json()).then(response=>{
-            this.setState({
-                myproducts:response
-            })
-        })
+              method:'GET',
+          }).then(response=>response.json()).then(response=>{
+              this.setState({
+                  myproducts:response
+              })
+          })
+
+
+        //Load the font
+        await Font.loadAsync({
+            Roboto_medium: require("../assets/fonts/Roboto_medium.ttf")
+          });
         this.setState({ fontLoaded: true });
-      }
+
+    }
+
+    componentDidMount() {
+        this.fetchProducts();
+    }
+
+
+    
     render() {        
         return this.state.fontLoaded ? (
             <Container>
@@ -103,6 +118,7 @@ class ProductsList extends Component {
                 <Tab activeTabStyle={{backgroundColor:"#038C65"}} tabStyle={{backgroundColor:"#038C65"}} heading="My Products">
                 <ScrollView style={{backgroundColor:"#eeeeee",flex:1}}>
                             {this.state.myproducts.map(product=><Product details={this.details} delete={this.delete} edit={this.edit} product={product} mine={true} key={product.id}/>)}
+                <View style={{flex:1,height:100}}/>
                 </ScrollView>
                 <Fab position='bottomRight' style={{backgroundColor:'#038C65'}} onPress={this.add} >
                     <Icon name='md-add'/>
