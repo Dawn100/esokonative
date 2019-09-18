@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { StyleSheet, ImageBackground, StatusBar } from "react-native";
-import { Button, Text, View } from "native-base";
+import { StyleSheet, ImageBackground, StatusBar,AsyncStorage} from "react-native";
+import { Button, Text, View,Spinner } from "native-base";
 
 import * as Font from "expo-font";
 
@@ -26,8 +26,10 @@ class Splash extends Component {
     super(props);
     this.state = { intervalId: -1, fontLoaded: false };
     this.next = this.next.bind(this);
+    this.api_token=''
   }
   async componentWillMount() {
+    this.api_token=await AsyncStorage.getItem('API_TOKEN')
     await Font.loadAsync({
       Roboto_medium: require("../assets/fonts/Roboto_medium.ttf"),
       "SansForgetica-Regular": require("../assets/fonts/forg.otf")
@@ -66,17 +68,21 @@ class Splash extends Component {
         <StatusBar translucent backgroundColor={"transparent"} />
       </ImageBackground>
     ) : (
-      <Text>loading Font</Text>
+      <Spinner color='green' />
     );
   }
   next() {
     const { navigate } = this.props.navigation;
-    navigate("List");
+    if (this.api_token) {
+      navigate("List");      
+    } else {
+      navigate("Login");      
+    }
     clearInterval(this.state.intervalId);
   }
   componentDidMount() {
-    // var id = setInterval(this.next, 5000);
-    // this.setState({ intervalId: id });
+    var id = setInterval(this.next, 5000);
+    this.setState({ intervalId: id });
   }
 }
 

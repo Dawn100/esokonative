@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StatusBar,View,Image,ScrollView ,StyleSheet,Platform, Dimensions} from "react-native";
+import { StatusBar,View,Image,ScrollView ,StyleSheet,Platform,AsyncStorage, Dimensions} from "react-native";
 import {
     Container,
     Header,
@@ -16,12 +16,13 @@ import {
     Fab,
     List,
     ListItem,
-    Tab, Tabs,ScrollableTab, Card,CardItem
+    Tab, Tabs,ScrollableTab, Card,CardItem,Spinner
   } from "native-base";
 import * as Font from 'expo-font';
 import ReactNativeParallaxHeader from 'react-native-parallax-header';
 
 const SCREEN_HEIGHT=Dimensions.get('screen').height
+import config from "../config";
 
 
 const IS_IPHONE_X = SCREEN_HEIGHT === 812 || SCREEN_HEIGHT === 896;
@@ -72,15 +73,17 @@ class ProductDetail extends Component {
     constructor(props) {
         super(props);
         this.state = { product:{},fetched:false }
-        this.api_token=api_token="zDlrQ3x4QLVxrK0xUseqVhzMmJQ8iEzKikdUvd2WHYQ4LXSx14nQWXsde9O9"
+        this.api_token=""
     }
 
     async componentDidMount() {
-        
+        var api_token=await AsyncStorage.getItem('API_TOKEN')
+        this.api_token=api_token
+
         await Font.loadAsync({
           Roboto_medium: require("../assets/fonts/Roboto_medium.ttf")
         });
-        await fetch("http://192.168.43.118:8000/api/products/"+this.props.navigation.getParam('id')+"?api_token="+this.api_token,{
+        await fetch(config.server+"/products/"+this.props.navigation.getParam('id')+"?api_token="+this.api_token,{
             method:'GET',
         }).then(response=>response.json()).then(response=>{
             this.setState({
@@ -196,7 +199,7 @@ class ProductDetail extends Component {
                 onScrollEndDrag: () => {},
               }}
             />
-          </View>):null;
+          </View>):<Container style={{backgroundColor:'#038C65'}}><Spinner color='#dddddd' /></Container>;
     }
 }
  

@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { StatusBar } from "react-native";
 import { View, Text,Input,Picker, Button, Icon, Form, Container,Header,Content,Item,Label, Left,Body,Title,Right } from 'native-base';
-
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
-
 import * as ImagePicker from 'expo-image-picker';
 import * as Font from 'expo-font';
+import config from "../config";
 
 class AddProduct extends Component {
     static navigationOptions = () => ({
@@ -69,7 +68,7 @@ class AddProduct extends Component {
         formData.append('stock',this.state.stock)
         
 
-        fetch('http://192.168.43.118:8000/api/products?api_token='+this.api_token,{
+        fetch(config.server+'/products?api_token='+this.api_token,{
             method:'POST',
             body:formData
         }).then(response=>{
@@ -110,7 +109,7 @@ class AddProduct extends Component {
       }
 
     componentWillMount(){
-        fetch('http://192.168.43.118:8000/api/categories').then(response=>response.json())
+        fetch(config.server+'/categories').then(response=>response.json())
         .then(response=>{
             this.setState({categories:response})
         })

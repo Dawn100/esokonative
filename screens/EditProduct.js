@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StatusBar } from "react-native";
+import { StatusBar,AsyncStorage } from "react-native";
 import { View, Text,Input,Picker, Button, Icon, Form, Container,Header,Content,Item,Label, Left,Body,Title,Right } from 'native-base';
 
 import Constants from 'expo-constants';
@@ -7,6 +7,7 @@ import * as Permissions from 'expo-permissions';
 
 import * as ImagePicker from 'expo-image-picker';
 import * as Font from 'expo-font';
+import config from "../config";
 
 class EditProduct extends Component {
 
@@ -32,7 +33,7 @@ class EditProduct extends Component {
         }
         this.save=this.save.bind(this);
         this.pick=this.pick.bind(this);
-        this.api_token="zDlrQ3x4QLVxrK0xUseqVhzMmJQ8iEzKikdUvd2WHYQ4LXSx14nQWXsde9O9";
+        this.api_token="";
     }
 
 
@@ -50,12 +51,14 @@ class EditProduct extends Component {
 
 
     async componentDidMount(){
-       await fetch('http://192.168.43.118:8000/api/categories').then(response=>response.json()).then(response=>{
+        var api_token=await AsyncStorage.getItem('API_TOKEN')
+        this.api_token=api_token
+       await fetch(config.server+'/categories').then(response=>response.json()).then(response=>{
             this.setState({
                 categories:response
             })
         })
-       await fetch('http://192.168.43.118:8000/api/products/'+this.props.navigation.getParam('id')+'?api_token='+this.api_token).then(data=>data.json()).then(data=>{
+       await fetch(config.server+'/products/'+this.props.navigation.getParam('id')+'?api_token='+this.api_token).then(data=>data.json()).then(data=>{
             this.setState({
                 category_id:data.category_id,
                 name:data.name,
@@ -116,7 +119,7 @@ class EditProduct extends Component {
         formData.append('photo',this.state.photo)
 
 
-        fetch('http://192.168.43.118:8000/api/products/'+this.props.navigation.getParam('id')+'?api_token='+this.api_token,{
+        fetch(config.server+'/products/'+this.props.navigation.getParam('id')+'?api_token='+this.api_token,{
             method:'PUT',
             headers:{
                 'Content-Type':'application/json'
@@ -128,7 +131,7 @@ class EditProduct extends Component {
             } 
         }).then(putresponse=>{
             if (this.state.photo_changed) {
-                fetch('http://192.168.43.118:8000/api/products/'+this.props.navigation.getParam('id')+'/setphoto?api_token='+this.api_token,{
+                fetch(config.server+'/products/'+this.props.navigation.getParam('id')+'/setphoto?api_token='+this.api_token,{
                     method:'POST',
                     body:formData
                 }).then(response=>{

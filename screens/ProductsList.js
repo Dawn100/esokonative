@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StatusBar,View,Image,ScrollView,ToastAndroid } from "react-native";
+import { StatusBar,View,Image,ScrollView,AsyncStorage,BackHandler } from "react-native";
 import {
     Container,
     Header,
@@ -15,18 +15,19 @@ import {
     Text,
     Fab,
     List,
-    ListItem,
+    ListItem,Spinner,
     Tab, Tabs,ScrollableTab,Root,Toast
   } from "native-base";
 import * as Font from 'expo-font';
 import Constants from 'expo-constants';
 import Product from './Product';
+import config from "../config";
 
 class ProductsList extends Component {
     static navigationOptions = () => ({
         header: null,
       });
-    constructor(props) {
+     constructor(props) {
         super(props);
         this.state = { 
             products:[],
@@ -38,12 +39,11 @@ class ProductsList extends Component {
          this.details = this.details.bind(this);
          this.remove=this.remove.bind(this);
 
-
-         this.api_token=api_token="zDlrQ3x4QLVxrK0xUseqVhzMmJQ8iEzKikdUvd2WHYQ4LXSx14nQWXsde9O9"
     }
 
     async remove(id){
-        await fetch("http://192.168.43.118:8000/api/products/"+id+"?api_token="+this.api_token,
+        var api_token=await AsyncStorage.getItem('API_TOKEN')
+        await fetch(config.server+"/products/"+id+"?api_token="+api_token,
         {
             method:'DELETE'
         }).then(response=>{
@@ -85,9 +85,9 @@ class ProductsList extends Component {
     }
 
     async fetchProducts(){
-
+        var api_token=await AsyncStorage.getItem('API_TOKEN')
         //Fetch all products
-        await fetch("http://192.168.43.118:8000/api/products/?api_token="+this.api_token,{
+        await fetch(config.server+"/products/?api_token="+api_token,{
             method:'GET',
         }).then(response=>response.json()).then(response=>{
             this.setState({
@@ -96,7 +96,7 @@ class ProductsList extends Component {
         })
 
         //Fetch only my products
-        await fetch("http://192.168.43.118:8000/api/user/products/?api_token="+this.api_token,{
+        await fetch(config.server+"/user/products/?api_token="+api_token,{
               method:'GET',
           }).then(response=>response.json()).then(response=>{
               this.setState({
@@ -115,9 +115,8 @@ class ProductsList extends Component {
 
     componentDidMount() {
         this.fetchProducts();
+        // BackHandler.addEventListener('hardwareBackPress', function() {return true})
     }
-
-
     
     render() {        
         return this.state.fontLoaded ? (<Root>
@@ -152,7 +151,7 @@ class ProductsList extends Component {
                 </Tab>
                 </Tabs>
       </Container></Root>
-        ):null;
+        ):<Container style={{backgroundColor:'#038C65'}}><Spinner color='#dddddd' /></Container>;
     }
 }
  
