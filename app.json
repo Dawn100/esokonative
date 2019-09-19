@@ -10,11 +10,14 @@
       "android",
       "web"
     ],
+    "android": {
+      "package": "com.heroku.esoko.esoko"
+    },
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "splash": {
-      "image": "./assets/images/img1.jpg",
+      "image": "./assets/images/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
